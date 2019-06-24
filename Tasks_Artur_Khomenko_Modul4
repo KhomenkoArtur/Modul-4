@@ -46,7 +46,7 @@ Select EmployeeID, EmpFirstName, EmpLastName, EmpPhoneNumber, EmpAreaCode
 Select DISTINCT VendName from [dbo].[Vendors]
 
 --------Task 8
-Select DISTINCT CustCity from [dbo].[Customers]
+Select DISTINCT CustState from [dbo].[Customers]
 
 --------Task 9
 Select ProductName, RetailPrice
