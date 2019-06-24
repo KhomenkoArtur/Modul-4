@@ -1,0 +1,126 @@
+USE [SalesOrders];
+
+go
+
+
+-------Task 1
+Select DISTINCT CustCity from [dbo].[Customers]
+
+-------Task 2
+Select EmployeeID, EmpFirstName, EmpLastName, EmpPhoneNumber from [dbo].[Employees]
+
+-------Task 3
+Select ProductName , CategoryDescription
+	from [dbo].[Products] as p join [dbo].[Categories] as c
+		ON p.CategoryID = c.CategoryID
+			Where QuantityOnHand > 0
+-------Task 4
+Select DISTINCT ProductName, RetailPrice, CategoryDescription
+	from [dbo].[Order_Details] as od left join [dbo].[Products] as p
+		ON od.ProductNumber = p.ProductNumber
+			left join [dbo].[Categories] as c
+				ON p.CategoryID = c.CategoryID
+					Group by ProductName, RetailPrice, CategoryDescription
+
+Select DISTINCT ProductName, RetailPrice, CategoryDescription
+	From vendors as v join Product_Vendors as pv
+		ON v.VendorID = pv.VendorID
+			join Products as p
+				ON pv.ProductNumber = p.ProductNumber
+					join Order_Details as od
+						ON od.ProductNumber = p.ProductNumber
+							join Categories as c
+								ON c.CategoryID = p.CategoryID
+
+------Task 5
+Select VendName 
+	from [dbo].[Vendors]
+		Order by VendZipCode
+
+-------Task 6 
+Select EmployeeID, EmpFirstName, EmpLastName, EmpPhoneNumber, EmpAreaCode
+	from [dbo].[Employees]
+		Order by  EmpFirstName,  EmpLastName
+
+-------Task 7
+Select DISTINCT VendName from [dbo].[Vendors]
+
+--------Task 8
+Select DISTINCT CustCity from [dbo].[Customers]
+
+--------Task 9
+Select ProductName, RetailPrice
+	from [dbo].[Products]
+
+--------Task 10
+Select * from [dbo].[Employees]
+
+-------Task 11
+--Select DISTINCT VendCity
+--	From [dbo].[Vendors]
+--		Order by VendCity
+
+	Select DISTINCT VendCity, VendName
+		From vendors as v join Product_Vendors as pv
+			ON v.VendorID = pv.VendorID
+				join Products as p
+					ON pv.ProductNumber = p.ProductNumber
+						join Order_Details as od
+							ON od.ProductNumber = p.ProductNumber
+								join Categories as c
+									ON c.CategoryID = p.CategoryID
+										Group by VendCity, VendName
+											Order by VendCity
+
+---------Task 12
+Select productNumber , MAX(DaysToDeliver) As MaxTime
+	from [dbo].[Product_Vendors]
+		Group by  productNumber
+
+
+----------Task 13
+Select ProductName, RetailPrice * QuantityOnHand as Total_Cost
+	From [dbo].[Products]
+
+
+-----------Task 14
+Select OrderNumber, DATEDIFF(DAY ,OrderDate, ShipDate) as Difference
+	From [dbo].[Orders]
+
+
+
+----------Task 15 with recursion
+WITH CTE AS	
+	(
+		Select 1 as Number
+		
+		Union all
+		
+		Select Number + 1
+			from CTE
+				Where Number < 10000 
+	)	
+	Select Number
+		from CTE
+			OPTION (MAXRECURSION 0)	
+
+--------------Task 16
+
+DECLARE @startDate DATETIME, @endDate DATETIME
+
+SELECT @startDate = '2019-01-01', @endDate = '2019-12-31'
+
+;WITH Calender AS (
+    SELECT @startDate AS date
+    
+	UNION ALL
+    
+	SELECT date + 1 FROM Calender
+		WHERE  date  + 1 <= @endDate
+)
+SELECT 
+	count(*) as quantity
+		FROM Calender
+			WHERE DATENAME (Weekday, date ) IN ('Saturday','Sunday')
+			 
+				Option(MaxRecursion 0)
