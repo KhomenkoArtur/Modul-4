@@ -84,18 +84,10 @@ Select ProductName, RetailPrice * QuantityOnHand as Total_Cost
 
 
 -----------Task 14
---Select OrderNumber, DATEDIFF(DAY ,OrderDate, ShipDate) as Difference
---	From [dbo].[Orders]
+Select OrderNumber, DATEDIFF(DAY ,OrderDate, ShipDate) as Difference
+	From [dbo].[Orders]
 
- Select o.OrderNumber,p.ProductNumber, MAX(DaysToDeliver) + DATEDIFF(DAY ,OrderDate, ShipDate) as diff
-	From [dbo].[Product_Vendors] as pv join [dbo].[Products] as p
-		ON pv.ProductNumber = p.ProductNumber 
-			join [dbo].[Order_Details] as od
-				ON od.ProductNumber = p.ProductNumber
-					join [dbo].[Orders] as o
-						ON o.OrderNumber = od.OrderNumber
-							GROUP BY  o.OrderNumber, p.ProductNumber, DATEDIFF(DAY ,OrderDate, ShipDate)
-
+ 
 
 ----------Task 15 with recursion
 WITH CTE AS	
