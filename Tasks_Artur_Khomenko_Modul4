@@ -85,14 +85,14 @@ Select ProductName, RetailPrice * QuantityOnHand as Total_Cost
 
 -----------Task 14
 
- Select p.ProductNumber, MAX(DaysToDeliver) + DATEDIFF(DAY ,OrderDate, ShipDate) as diff
+  Select o.OrderNumber,MAX(DaysToDeliver) + DATEDIFF(DAY ,OrderDate, ShipDate) as diff
 	From [dbo].[Product_Vendors] as pv join [dbo].[Products] as p
 		ON pv.ProductNumber = p.ProductNumber 
 			join [dbo].[Order_Details] as od
 				ON od.ProductNumber = p.ProductNumber
 					join [dbo].[Orders] as o
 						ON o.OrderNumber = od.OrderNumber
-							GROUP BY p.ProductNumber, DATEDIFF(DAY ,OrderDate, ShipDate)
+							GROUP BY o.OrderNumber, DATEDIFF(DAY ,OrderDate, ShipDate)
 								
 
  
